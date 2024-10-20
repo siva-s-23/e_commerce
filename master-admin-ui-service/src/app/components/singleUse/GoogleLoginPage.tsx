@@ -27,9 +27,6 @@ interface GoogleUserData {
 const theme = createTheme()
 
 const GoogleLoginPage = () => {
-    console.log(process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID, "NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID")
-    console.log(process.env._GOOGLE_AUTH_CLIENT_ID, "_GOOGLE_AUTH_CLIENT_ID")
-    console.log(process.env.GOOGLE_AUTH_CLIENT_ID, "GOOGLE_AUTH_CLIENT_ID")
 
     const dispatch = useDispatch()
     const router = useRouter()
