@@ -1,8 +1,9 @@
 steps:
-  # Build the container image
+  # Build the container image without cache
   - name: 'gcr.io/cloud-builders/docker'
     args: [
         'build',
+        '--no-cache', # Add the no-cache option here
         '-t',
         'gcr.io/$PROJECT_ID/master-data-admin-ui-service:$COMMIT_SHA',
         './master-admin-ui-service', # Ensure you're using the correct directory
