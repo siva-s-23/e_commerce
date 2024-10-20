@@ -8,9 +8,7 @@ import {
     Grid,
     Card,
     CardContent,
-    ThemeProvider,
     CssBaseline,
-    Icon
 } from '@mui/material';
 import {
     Devices,
