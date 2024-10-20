@@ -12,25 +12,36 @@ import {
     MenuItem,
     useMediaQuery,
     useTheme,
+    Tooltip,
 } from '@mui/material';
 import {
     ShoppingCart as ShoppingCartIcon,
     Person as PersonIcon,
     Menu as MenuIcon,
+    Logout as LogoutIcon
 } from '@mui/icons-material';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store/store';
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '@/app/store/slices/userSlice';
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+    // Get user data and authentication state from Redux
     const isAuthenticated = useSelector(
         (state: RootState) => state.user.isAuthenticated,
     );
+    const userName = useSelector((state: RootState) => state.user.name);
+    const router = useRouter();
+    const dispatch = useDispatch();
 
+
+    // Handle menu actions
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -39,6 +50,7 @@ const Header = () => {
         setAnchorEl(null);
     };
 
+    // Define menu items
     const menuItems = [
         { label: 'Home', href: '/' },
         { label: 'Products', href: '/products' },
@@ -47,6 +59,13 @@ const Header = () => {
         { label: 'Contact', href: '/contact' },
     ];
 
+    const handleLogout = () => {
+        sessionStorage.clear()
+        dispatch(clearUser());      // Dispatch the logout action to update Redux state
+        router.push('/pages/login');
+    }
+
+    // If not authenticated, return empty fragment
     if (!isAuthenticated) {
         return <></>;
     }
@@ -93,13 +112,22 @@ const Header = () => {
                     ))
                 )}
 
-                <IconButton color="inherit" aria-label="account">
-                    <PersonIcon />
-                </IconButton>
+                {/* Tooltip to display user name when hovering over the person icon */}
+                <Tooltip title={userName || "User"} arrow>
+                    <IconButton color="inherit" aria-label="account">
+                        <Badge badgeContent={1} color="primary">
+                            <PersonIcon />
+                        </Badge>
+                    </IconButton>
+                </Tooltip>
+
                 <IconButton color="inherit" aria-label="cart">
                     <Badge badgeContent={4} color="error">
                         <ShoppingCartIcon />
                     </Badge>
+                </IconButton>
+                <IconButton color="inherit" aria-label="cart" onClick={handleLogout}>
+                    <LogoutIcon />
                 </IconButton>
             </Toolbar>
         </AppBar>

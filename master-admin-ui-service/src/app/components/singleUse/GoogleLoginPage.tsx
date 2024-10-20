@@ -15,35 +15,26 @@ import {
     CssBaseline
 } from '@mui/material'
 import { setUser } from '@/app/store/slices/userSlice'
+import { useRouter } from 'next/navigation';
+
 
 interface GoogleUserData {
     name: string
     email: string
 }
 
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#1976d2',
-        },
-        background: {
-            default: '#f5f5f5',
-        },
-    },
-})
+const theme = createTheme()
 
-export default function MaterialUIGoogleLoginPage() {
+const GoogleLoginPage = () => {
     const dispatch = useDispatch()
+    const router = useRouter()
 
     const handleGoogleLoginSuccess = (credentialResponse: any) => {
         const decoded: GoogleUserData = jwtDecode(credentialResponse.credential)
         const userData = { name: decoded.name, email: decoded.email }
-
-        // Store user data in session storage
         sessionStorage.setItem('userData', JSON.stringify(userData))
-
-        // Update Redux store
         dispatch(setUser(userData))
+        router.push("/")
     }
 
     const handleGoogleLoginError = () => {
@@ -106,3 +97,5 @@ export default function MaterialUIGoogleLoginPage() {
         </ThemeProvider>
     )
 }
+
+export default GoogleLoginPage
