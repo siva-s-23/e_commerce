@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             <body>
                 <Provider store={store}>
                     <GoogleOAuthProvider
-                        clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}
+                        clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID ?? ""}
                     >
                         <ThemeProvider theme={theme}>
                             <CssBaseline />
