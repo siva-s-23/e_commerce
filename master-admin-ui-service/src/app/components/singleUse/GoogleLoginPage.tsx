@@ -16,6 +16,7 @@ import {
 } from '@mui/material'
 import { setUser } from '@/app/store/slices/userSlice'
 import { useRouter } from 'next/navigation';
+import { ILooseObject } from '@/types/global'
 
 
 interface GoogleUserData {
@@ -29,7 +30,7 @@ const GoogleLoginPage = () => {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    const handleGoogleLoginSuccess = (credentialResponse: any) => {
+    const handleGoogleLoginSuccess = (credentialResponse: ILooseObject) => {
         const decoded: GoogleUserData = jwtDecode(credentialResponse.credential)
         const userData = { name: decoded.name, email: decoded.email }
         sessionStorage.setItem('userData', JSON.stringify(userData))

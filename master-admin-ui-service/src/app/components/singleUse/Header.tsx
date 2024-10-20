@@ -20,7 +20,6 @@ import {
     Menu as MenuIcon,
     Logout as LogoutIcon
 } from '@mui/icons-material';
-import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store/store';
 import { useRouter } from 'next/navigation';
@@ -74,9 +73,7 @@ const Header = () => {
         <AppBar position="static" color="default" elevation={1}>
             <Toolbar>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <Link href="/" passHref>
-                        <Button color="inherit">E-Shop</Button>
-                    </Link>
+                    <Button color="inherit">E-Shop</Button>
                 </Typography>
 
                 {isMobile ? (
@@ -97,18 +94,14 @@ const Header = () => {
                         >
                             {menuItems.map((item) => (
                                 <MenuItem key={item.label} onClick={handleMenuClose}>
-                                    <Link href={item.href} passHref>
-                                        <Button color="inherit">{item.label}</Button>
-                                    </Link>
+                                    <Button color="inherit">{item.label}</Button>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </>
                 ) : (
                     menuItems.map((item) => (
-                        <Link key={item.label} href={item.href} passHref>
-                            <Button color="inherit">{item.label}</Button>
-                        </Link>
+                        <Button key={item?.label} color="inherit">{item.label}</Button>
                     ))
                 )}
 
