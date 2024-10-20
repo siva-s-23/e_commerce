@@ -3,10 +3,12 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
         'build',
-        '--no-cache', # Add the no-cache option here
+        '--no-cache', # Ensures no cached layers are used
         '-t',
         'gcr.io/$PROJECT_ID/master-data-admin-ui-service:$COMMIT_SHA',
-        './master-admin-ui-service', # Ensure you're using the correct directory
+        '--build-arg',
+        'GOOGLE_AUTH_CLIENT_ID=${_GOOGLE_AUTH_CLIENT_ID}', # Pass your Cloud Build variable
+        './master-admin-ui-service',
       ]
 
   # Push the container image to Container Registry
@@ -25,8 +27,6 @@ steps:
       - '--region=us-central1'
       - '--platform=managed'
       - '--allow-unauthenticated'
-      # This is where you will set the Google OAuth Client ID as an environment variable in Cloud Run
-      - '--set-env-vars=NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID=${_GOOGLE_AUTH_CLIENT_ID}'
 
 images:
   - 'gcr.io/$PROJECT_ID/master-data-admin-ui-service:$COMMIT_SHA'
