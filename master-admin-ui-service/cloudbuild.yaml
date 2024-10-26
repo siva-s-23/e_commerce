@@ -7,6 +7,10 @@ steps:
         'gcr.io/$PROJECT_ID/master-data-admin-ui-service:$COMMIT_SHA',
         '--build-arg',
         'GOOGLE_AUTH_CLIENT_ID=${_GOOGLE_AUTH_CLIENT_ID}', # Pass your Cloud Build variable
+        '--build-arg',
+        'NOTIFICATIONS_BASE_URL=${_NOTIFICATIONS_BASE_URL}',
+        '--build-arg',
+        'ADMIN_EMAIL=${_ADMIN_EMAIL}',
         './master-admin-ui-service',
       ]
 
@@ -26,7 +30,6 @@ steps:
       - '--region=us-central1'
       - '--platform=managed'
       - '--allow-unauthenticated'
-      - '--set-env-vars=NEXT_PUBLIC_NOTIFICATIONS_BASE_URL=${_NOTIFICATIONS_BASE_URL},NEXT_PUBLIC_ADMIN_EMAIL=${_ADMIN_EMAIL}'
 
 images:
   - 'gcr.io/$PROJECT_ID/master-data-admin-ui-service:$COMMIT_SHA'

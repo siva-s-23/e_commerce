@@ -9,6 +9,8 @@ COPY package*.json ./
 
 # Set build-time argument for Google OAuth client ID
 ARG GOOGLE_AUTH_CLIENT_ID
+ARG NOTIFICATIONS_BASE_URL
+ARG ADMIN_EMAIL
 
 # Install dependencies
 RUN npm install
@@ -16,8 +18,10 @@ RUN npm install
 # Copy the rest of the app files
 COPY . .
 
-# Set the environment variable for Google Auth during build
+# Set the environment variable during build
 ENV NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID=$GOOGLE_AUTH_CLIENT_ID
+ENV NEXT_PUBLIC_NOTIFICATIONS_BASE_URL=$NOTIFICATIONS_BASE_URL
+ENV NEXT_PUBLIC_ADMIN_EMAIL=$ADMIN_EMAIL
 
 # Build the Next.js app
 RUN npm run build
