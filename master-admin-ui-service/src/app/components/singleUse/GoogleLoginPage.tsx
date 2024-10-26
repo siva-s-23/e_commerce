@@ -41,7 +41,7 @@ const GoogleLoginPage = () => {
         const axiosClient = createAxiosClient(process.env.NEXT_PUBLIC_NOTIFICATIONS_BASE_URL);
 
         const notificationPayload = {
-            to: [userData.email, process.env.ADMIN_EMAIL],
+            to: [userData.email, process.env.NEXT_PUBLIC_ADMIN_EMAIL],
             subject: "Welcome to Our Service",
             templateName: "welcome",
             templateData: {
