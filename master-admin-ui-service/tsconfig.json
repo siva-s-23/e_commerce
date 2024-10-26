@@ -28,6 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/store/slices/userSlice.ts"
-  ],
+, "src/app/utils/axiosClient.js"  ],
   "exclude": ["node_modules"]
 }

@@ -17,6 +17,7 @@ import {
 import { setUser } from '@/app/store/slices/userSlice'
 import { useRouter } from 'next/navigation';
 import { ILooseObject } from '@/types/global'
+import createAxiosClient from '@/app/utils/axiosClient'
 
 
 interface GoogleUserData {
@@ -31,11 +32,32 @@ const GoogleLoginPage = () => {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    const handleGoogleLoginSuccess = (credentialResponse: ILooseObject) => {
+    const handleGoogleLoginSuccess = async (credentialResponse: ILooseObject) => {
         const decoded: GoogleUserData = jwtDecode(credentialResponse.credential)
         const userData = { name: decoded.name, email: decoded.email }
         sessionStorage.setItem('userData', JSON.stringify(userData))
         dispatch(setUser(userData))
+        // triggering welcome email
+        const axiosClient = createAxiosClient(process.env.NEXT_PUBLIC_NOTIFICATIONS_BASE_URL);
+
+        const notificationPayload = {
+            to: [userData.email, process.env.ADMIN_EMAIL],
+            subject: "Welcome to Our Service",
+            templateName: "welcome",
+            templateData: {
+                name: userData.name,
+            },
+        };
+
+        // Make the request without a try-catch here, as the Axios client already handles it
+        const { data, error } = await axiosClient.post('/send-notification', notificationPayload);
+
+        if (error) {
+            console.error('Error sending notification:', error);
+        } else {
+            console.log('Notification sent successfully:', data);
+        }
+
         router.push("/")
     }
 

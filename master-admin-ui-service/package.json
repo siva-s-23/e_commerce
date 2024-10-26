@@ -17,6 +17,7 @@
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.3.0",
     "@types/google-one-tap": "^1.2.6",
+    "axios": "^1.7.7",
     "jwt-decode": "^4.0.0",
     "next": "14.2.15",
     "next-images": "^1.8.5",
