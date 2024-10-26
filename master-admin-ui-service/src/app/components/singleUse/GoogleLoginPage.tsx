@@ -32,6 +32,9 @@ const GoogleLoginPage = () => {
     const dispatch = useDispatch()
     const router = useRouter()
 
+    console.log('Notifications Base URL:', process.env.NEXT_PUBLIC_NOTIFICATIONS_BASE_URL);
+    console.log('Admin Email:', process.env.NEXT_PUBLIC_ADMIN_EMAIL);
+
     const handleGoogleLoginSuccess = async (credentialResponse: ILooseObject) => {
         const decoded: GoogleUserData = jwtDecode(credentialResponse.credential)
         const userData = { name: decoded.name, email: decoded.email }
