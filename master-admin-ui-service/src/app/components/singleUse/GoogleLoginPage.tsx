@@ -45,7 +45,7 @@ const GoogleLoginPage = () => {
         if (error) {
             console.error('Error in user-service:', error);
         } else {
-            console.log("User updated successfully");
+            console.log("User updated successfully", data);
         }
     }
 

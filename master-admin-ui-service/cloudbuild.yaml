@@ -11,6 +11,8 @@ steps:
         'NOTIFICATIONS_BASE_URL=${_NOTIFICATIONS_BASE_URL}',
         '--build-arg',
         'ADMIN_EMAIL=${_ADMIN_EMAIL}',
+        '--build-arg',
+        'USER_SERVICE_BASE_URL=${_USER_SERVICE_BASE_URL}',
         './master-admin-ui-service',
       ]
 
