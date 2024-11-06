@@ -32,13 +32,29 @@ const GoogleLoginPage = () => {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    console.log('Notifications Base URL:', process.env.NEXT_PUBLIC_NOTIFICATIONS_BASE_URL);
-    console.log('Admin Email:', process.env.NEXT_PUBLIC_ADMIN_EMAIL);
+    const createUser = async (userData: ILooseObject) => {
+        const userAxiosClient = createAxiosClient(process.env.NEXT_PUBLIC_USER_SERVICE_BASE_URL);
+        const userPayload = {
+            "name": userData.name,
+            "email": userData.email,
+            "accessToken": userData.accessToken,
+            "userRole": "USER" // hardcoded for now
+        }
+        const { data, error } = await userAxiosClient.post('/users/create', userPayload);
+
+        if (error) {
+            console.error('Error in user-service:', error);
+        } else {
+            console.log("User updated successfully");
+        }
+    }
 
     const handleGoogleLoginSuccess = async (credentialResponse: ILooseObject) => {
         const decoded: GoogleUserData = jwtDecode(credentialResponse.credential)
         const userData = { name: decoded.name, email: decoded.email }
-        sessionStorage.setItem('userData', JSON.stringify(userData))
+        // storing user data in db
+        await createUser({ ...userData, accessToken: credentialResponse.credential })
+        sessionStorage.setItem('accessToken', JSON.stringify({ ...userData, accessToken: credentialResponse.credential }))
         dispatch(setUser(userData))
         // triggering welcome email
         const axiosClient = createAxiosClient(process.env.NEXT_PUBLIC_NOTIFICATIONS_BASE_URL);
@@ -52,7 +68,6 @@ const GoogleLoginPage = () => {
             },
         };
 
-        // Make the request without a try-catch here, as the Axios client already handles it
         const { data, error } = await axiosClient.post('/send-notification', notificationPayload);
 
         if (error) {
