@@ -38,7 +38,7 @@ const GoogleLoginPage = () => {
             "name": userData.name,
             "email": userData.email,
             "accessToken": userData.accessToken,
-            "userRole": "USER" // hardcoded for now
+            "role": "user" // hardcoded for now
         }
         const { data, error } = await userAxiosClient.post('/users/create', userPayload);
 
